@@ -1,2 +1,6 @@
 .vscode/
 output/
+main*/
+main
+.DS_Store
+.idea*
