@@ -11,10 +11,14 @@ private:
     struct Game
     {
         string name;
-        string developer;
-        string publisher;
+        string format;
+        string date;
+        vector<string> developers;
+        vector<string> tags;
+        vector<string> details;
+        vector<string> languages;
+        string achievements;
         string genre;
-        string maturityRating;
         double price;
     };
 
