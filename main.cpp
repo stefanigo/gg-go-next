@@ -8,13 +8,13 @@ using namespace std;
 
 int main()
 {
-    cout << "hello" << endl;
-    string line;
-    ifstream inFile("games(1).csv");
-    getline(inFile, line);
-    int count = 0;
-  
-    while (getline(inFile, line)) {
+  cout << "hello" << endl;
+  string line;
+  ifstream inFile("games(1).csv");
+  getline(inFile, line);
+  int count = 0;
+
+  while (getline(inFile, line)) {
     istringstream stream(line);
     string gameName, format, date, developer, tags, details, languages, achievements, genre, price;
 
@@ -45,8 +45,8 @@ int main()
     cout << "Price: " << price << endl;
 
     cout << endl;
-      
+
     count++;
-  }
-    return 0;
+}
+  return 0;
 }
