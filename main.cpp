@@ -11,66 +11,36 @@ int main()
     string line;
     ifstream inFile("games.csv");
     getline(inFile, line);
+    // int count = 0;
+  
+    while (getline(inFile, line)) {
+    istringstream stream(line);
+    string gameName, format, date, developer, tags, details, languages, achievements, genre, price;
 
-    string data;
-    while(getline(inFile, data))
-    {
-        istringstream stream(data);
+    getline(stream, gameName, ',');
+    cout << "Game: " << gameName << endl;
+    getline(stream, format, ',');
+    cout << "Format: " << format << endl;
+    getline(stream, date, ',');
+    cout << "Released On: " << date << endl;
+    getline(stream, developer, ',');
+    cout << "Developer: " << developer << endl;
+    getline(stream, tags, ',');
+    cout << "Tags: " << tags << endl;
+    getline(stream, details, ',');
+    cout << "Details: " << details << endl;
+    getline(stream, languages, ',');
+    cout << "Languages: " << languages << endl;
+    getline(stream, achievements, ',');
+    cout << "Achievements: " << achievements << endl;
+    getline(stream, genre, ',');
+    cout << "Genre: " << genre << endl;
+    getline(stream, price);
+    cout << "Price: " << price << endl;
 
-        // Game Name
-        string gameName;
-        getline(stream, data, ',');
-        gameName = data;
-        cout << "Game: " << gameName << endl;
-
-        // Game Format
-        string format;
-        getline(stream, data, ',');
-        format = data;
-        cout << "Format: " << format << endl;
-
-        // Game Release Date
-        string date;
-        getline(stream, data, ',');
-        date = data;
-        cout << "Released On: " << date << endl;
-
-        // Game Developer
-        string developer;
-        getline(stream, data, ',');
-        developer = data;
-        cout << "Developer: " << developer << endl;
-
-        // Game Tags
-        string tags;
-        getline(stream, data, ',');
-        tags = data;
-        cout << "Tags: " << tags << endl;
-
-        // Game Details
-        string details;
-        getline(stream, data, ',');
-        details = data;
-        cout << "Details: " << details << endl;
-
-        // Game Languages
-        string languages;
-        getline(stream, data, ',');
-        languages = data;
-        cout << "Languages: " << languages << endl;
-
-        // Game Genre
-        string genre;
-        getline(stream, data, ',');
-        genre = data;
-        cout << "Genre: " << genre << endl;
-
-        // Game Price
-        string price;
-        getline(stream, data, ',');
-        format = data;
-        cout << "Price: " << price << endl;
-    }
-
+    cout << endl;
+      
+    // count++;
+  }
     return 0;
 }
