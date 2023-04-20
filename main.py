@@ -12,9 +12,43 @@ class Game:
       self.details = []
       self.languages = []
       self.achievement = ""
-      self.genre = ""
-      self.price = 0.0
+      self.genre = []
+      self.price = ""
       self.similarityScore =0.0
+
+   def setDevelopers(self, developers):
+      self.developers = developers.split(' | ')
+
+   def setTags(self, tags):
+      self.tags = tags.split(' | ')
+
+   def setDetails(self, details):
+      self.details = details.split(' | ')
+
+   def setLanguages(self, languages):
+      self.languages = languages.split(' | ')
+
+   def setAchievement(self, achievement):
+      self.achievement = achievement
+
+   def setGenre(self, genre):
+      self.genre = genre.split(' | ')
+
+   def setPrice(self, price):
+      self.price = price
+
+   def printInfo(self):
+      print(f"Game: {self.name}")
+      print(f"Format: {self.format}")
+      print(f"Released On: {self.date}")
+      print(f"Developer(s): {self.developers}")
+      print(f"Tag(s): {self.tags}")
+      print(f"Detail(s): {self.details}")
+      print(f"Languages(s): {self.languages}")
+      print(f"Achievement: {self.achievement}")
+      print(f"Genre: {self.genre}")
+      print(f"Price: {self.price}")
+
 
 class Container:
    def __init__(self):
@@ -27,18 +61,19 @@ class Container:
          if count > 10:
             break
 
-         gameName, format, date, developer, tags, details, languages, achievements, genre, price = line.strip().split(',')
+         gameName, format, date, developer, tags, details, languages, achievements, genre, price = line.strip().split(',')[:10] # only get the first 10 items
 
-         print(f"Game: {gameName}")
-         print(f"Format: {format}")
-         print(f"Released On: {date}")
-         print(f"Developer: {developer}")
-         print(f"Tags: {tags}")
-         print(f"Details: {details}")
-         print(f"Languages: {languages}")
-         print(f"Achievements: {achievements}")
-         print(f"Genre: {genre}")
-         print(f"Price: {price}")
+         temp = Game(gameName, format, date)
+
+         temp.setDevelopers(developer)
+         temp.setTags(tags)
+         temp.setDetails(details)
+         temp.setLanguages(languages)
+         temp.setAchievement(achievements)
+         temp.setGenre(genre)
+         temp.setPrice(price)
+
+         temp.printInfo()
 
          print()
 
