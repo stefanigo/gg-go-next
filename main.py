@@ -29,13 +29,20 @@ class Game:
       self.languages = languages.split(' | ')
 
    def setAchievement(self, achievement):
-      self.achievement = achievement
+      if achievement == "":
+         achievement = "NA"
+      else:
+         self.achievement = achievement
 
    def setGenre(self, genre):
       self.genre = genre.split(' | ')
 
    def setPrice(self, price):
-      self.price = price
+      containsNum = any(chr.isdigit() for chr in price)
+      if containsNum:
+         self.price = price
+      else:
+         self.price = "$0.00"
 
    def printInfo(self):
       print(f"Game: {self.name}")
@@ -72,12 +79,14 @@ class Container:
          temp.setAchievement(achievements)
          temp.setGenre(genre)
          temp.setPrice(price)
-
+         self.gameList.append(temp);
          temp.printInfo()
 
          print()
 
          count += 1
+      
+      print(f"The container has {len(self.gameList)} games.")
 
 if __name__ == "__main__":
 
