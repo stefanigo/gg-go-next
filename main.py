@@ -14,7 +14,7 @@ class Game:
       self.achievement = ""
       self.genre = []
       self.price = ""
-      self.similarityScore =0.0
+      self.similarityScore = 0.0
 
    def setDevelopers(self, developers):
       self.developers = developers.split(' | ')
@@ -43,6 +43,24 @@ class Game:
          self.price = price
       else:
          self.price = "$0.00"
+   
+   def setSimilarityScore(self, format, date, developers, tags, details, genre):
+      score = 0.0
+      if self.format == format:
+         score += 1.0
+      for item in developers:
+         if item in self.developers:
+            score += 1.0
+      for item in tags:
+         if item in self.tags:
+            score += 1.0
+      for item in details:
+         if item in self.details:
+            score += 1.0
+      for item in genre:
+         if item in self.genre:
+            score += 1.0
+      self.similarityScore = score
 
    def printInfo(self):
       print(f"Game: {self.name}")
@@ -60,13 +78,20 @@ class Game:
 class Container:
    def __init__(self):
       self.gameList = []
+      self.standardSortResults = []
+      self.mergeSortResults = []
+      self.uniqueDevelopers = set()
+      self.uniqueTags = set()
+      self.uniqueDetails = set()
+      self.uniqueGenres = set()
+
       with open('games.csv') as file:
         lines = file.readlines()
 
       count = 0
       for line in lines[1:]: # start at index 1 to skip header
-         if count > 10:
-            break
+         # if count > 10:
+         #    break
 
          gameName, format, date, developer, tags, details, languages, achievements, genre, price = line.strip().split(',')[:10] # only get the first 10 items
 
@@ -80,13 +105,61 @@ class Container:
          temp.setGenre(genre)
          temp.setPrice(price)
          self.gameList.append(temp);
-         temp.printInfo()
 
-         print()
+         for item in temp.developers:
+            self.uniqueDevelopers.add(item)
+
+         for item in temp.tags:
+            self.uniqueTags.add(item)
+
+         for item in temp.details:
+            self.uniqueDetails.add(item)
+
+         for item in temp.genre:
+            self.uniqueGenres.add(item)
+
+         # temp.printInfo()
+         # print()
 
          count += 1
       
       print(f"The container has {len(self.gameList)} games.")
+      # print()
+      # print(f"Developers in list: ")
+      # for item in self.uniqueDevelopers:
+      #    print(item, end=", ")
+      
+      print()
+      print(f"Tags in list: ")
+      for item in self.uniqueTags:
+         print(item, end=", ")
+
+      print()
+      print()
+      print(f"Details in list: ")
+      for item in self.uniqueDetails:
+         print(item, end=", ")
+
+      print()
+      print()
+      print(f"Genres in list: ")
+      for item in self.uniqueGenres:
+         print(item, end=", ")
+      print()
+      print()
+      
+
+   def mergeSort(self):
+      pass
+
+   def standardSort(self):
+      # use standard sort method to sort objects by similarity score and store the results in a list in descending order
+      self.standardSortResults = sorted(self.gameList, key = lambda x: x.similarityScore, reverse = True)
+      for i in range(9):
+         print(self.standardSortResults[i].name)
+         print()
+
+
 
 if __name__ == "__main__":
 
