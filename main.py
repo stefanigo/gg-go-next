@@ -80,18 +80,14 @@ class Container:
       self.gameList = []
       self.standardSortResults = []
       self.mergeSortResults = []
-      self.uniqueDevelopers = set()
-      self.uniqueTags = set()
-      self.uniqueDetails = set()
-      self.uniqueGenres = set()
 
       with open('games.csv') as file:
         lines = file.readlines()
 
       count = 0
       for line in lines[1:]: # start at index 1 to skip header
-         # if count > 10:
-         #    break
+         if count > 10:
+            break
 
          gameName, format, date, developer, tags, details, languages, achievements, genre, price = line.strip().split(',')[:10] # only get the first 10 items
 
@@ -118,39 +114,57 @@ class Container:
          for item in temp.genre:
             self.uniqueGenres.add(item)
 
-         # temp.printInfo()
-         # print()
+         temp.printInfo()
+         print()
 
          count += 1
       
       print(f"The container has {len(self.gameList)} games.")
-      # print()
-      # print(f"Developers in list: ")
-      # for item in self.uniqueDevelopers:
-      #    print(item, end=", ")
       
-      print()
-      print(f"Tags in list: ")
-      for item in self.uniqueTags:
-         print(item, end=", ")
+   def merge(arr, left, mid, right): # code from module 6 lecture slides
+      n1 = mid - left + 1
+      n2 = right - mid
+      X = [0] * n1
+      Y = [0] * n2
 
-      print()
-      print()
-      print(f"Details in list: ")
-      for item in self.uniqueDetails:
-         print(item, end=", ")
-
-      print()
-      print()
-      print(f"Genres in list: ")
-      for item in self.uniqueGenres:
-         print(item, end=", ")
-      print()
-      print()
+      for i in range(n1):
+         X[i] = arr[left + i]
       
+      for j in range(n2):
+         Y[j] = arr[1 + mid + j]
+   
+      i, j = 0
+      k = left
+
+      while i < n1 and j < n2:
+         if X[i] <= Y[j]:
+            arr[k] = X[i]
+            i += 1
+         else:
+            arr[k] = Y[j]
+            j += 1
+         k += 1
+
+      while i < n1:
+         arr[k] = X[i]
+         i += 1
+         k += 1
+      
+      while j < n2:
+         arr[k] = Y[j]
+         j += 1
+         k += 1
+      
+   def mergeSortHelper(arr, left, right): # code from module 6 lecture slides
+      if left < right:
+         mid = left + (right - left) / 2
+         mergeSortHelper(arr, left, mid)
+         mergeSortHelper(arr, mid + 1, right)
+         merge(arr, left, mid, right)
 
    def mergeSort(self):
-      pass
+      results = []
+      self.mergeSortResults = results
 
    def standardSort(self):
       # use standard sort method to sort objects by similarity score and store the results in a list in descending order
@@ -164,6 +178,8 @@ class Container:
 if __name__ == "__main__":
 
    myGames = Container()
+
+   searchKey = input("Enter the name of a game: ")
 
    app = Flask('app')
    @app.route('/')
