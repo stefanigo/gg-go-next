@@ -201,6 +201,7 @@ if __name__ == "__main__":
       print(f"Standard Sort Results: ")
       for item in myGames.standardSortResults:
          print(f"{item.name}")
+      print()
    else:
       print(f"Oops! We don't have info on that game yet. Would you like to try again?")
 
