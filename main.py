@@ -108,26 +108,30 @@ class Container:
          count += 1
       
       print(f"The container has {len(self.gameList)} games.")
-
-      return self.gameList
       
-   def merge(arr, left, mid, right): # code from module 6 lecture slides
+   def findGame(self, searchKey):
+      for game in self.gameList:
+         if game.name == searchKey:
+            return game
+
+   def merge(self, arr, left, mid, right): # code from module 6 lecture slides
       n1 = mid - left + 1
       n2 = right - mid
       X = [0] * n1
       Y = [0] * n2
 
-      for i in range(n1):
+      for i in range(0, n1):
          X[i] = arr[left + i]
       
-      for j in range(n2):
-         Y[j] = arr[1 + mid + j]
+      for j in range(0, n2):
+         Y[j] = arr[mid + 1 + j]
    
-      i, j = 0
+      i = 0
+      j = 0
       k = left
 
       while i < n1 and j < n2:
-         if X[i] <= Y[j]:
+         if X[i].similarityScore >= Y[j].similarityScore:
             arr[k] = X[i]
             i += 1
          else:
@@ -144,29 +148,22 @@ class Container:
          arr[k] = Y[j]
          j += 1
          k += 1
-      
-   def findGame(self, searchKey):
-      for game in self.gameList:
-         if game.name == searchKey:
-            return game
 
-   def mergeSortHelper(arr, left, right): # code from module 6 lecture slides
+   def mergeSortHelper(self, arr, left, right): # code from module 6 lecture slides
       if left < right:
          mid = left + (right - left) // 2
-         mergeSortHelper(arr, left, mid)
-         mergeSortHelper(arr, mid + 1, right)
-         merge(arr, left, mid, right)
+         self.mergeSortHelper(arr, left, mid)
+         self.mergeSortHelper(arr, mid + 1, right)
+         self.merge(arr, left, mid, right)
 
    def mergeSort(self):
-      results = []
+      results = self.gameList
+      self.mergeSortHelper(results, 0, len(self.gameList)-1)
       self.mergeSortResults = results
 
    def standardSort(self):
       # use standard sort method to sort objects by similarity score and store the results in a list in descending order
       self.standardSortResults = sorted(self.gameList, key = lambda x: x.similarityScore, reverse = True)
-      for i in range(9):
-         print(self.standardSortResults[i].name)
-         print()
 
 
 if __name__ == "__main__":
@@ -176,14 +173,26 @@ if __name__ == "__main__":
    searchKey = input("Enter the name of a game: ")
    
    # if game is in container, get its properties
-   if any(x for x in myGames if x.name == searchKey):
+   if any(x for x in myGames.gameList if x.name == searchKey):
       # based on its properties, update the similarity scores of every game in the container
       target = myGames.findGame(searchKey)
-      for game in myGames:
+      for game in myGames.gameList:
          game.setSimilarityScore(target.format, target.date, target.developers, target.tags, target.details, target.genre)
+      
       # sort the games based on their similarity scores 
       myGames.mergeSort()
       myGames.standardSort()
+
+      print
+      print()
+      print(f"Merge Sort Results: ")
+      for item in myGames.mergeSortResults:
+         print(f"{item.name}")
+
+      print()
+      print(f"Standard Sort Results: ")
+      for item in myGames.standardSortResults:
+         print(f"{item.name}")
    else:
       print(f"Oops! We don't have info on that game yet. Would you like to try again?")
 
