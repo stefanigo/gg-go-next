@@ -102,8 +102,8 @@ class Container:
          temp.setPrice(price)
          self.gameList.append(temp);
 
-         temp.printInfo()
-         print()
+         # temp.printInfo()
+         # print()
 
          count += 1
       
