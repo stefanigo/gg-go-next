@@ -165,6 +165,10 @@ class Container:
       # use standard sort method to sort objects by similarity score and store the results in a list in descending order
       self.standardSortResults = sorted(self.gameList, key = lambda x: x.similarityScore, reverse = True)
 
+def remove(results, searchKey):
+   for game in results:
+      if game.name == searchKey:
+         results.remove(game)
 
 if __name__ == "__main__":
 
@@ -182,6 +186,10 @@ if __name__ == "__main__":
       # sort the games based on their similarity scores 
       myGames.mergeSort()
       myGames.standardSort()
+
+      # if the results contain the search key, remove it so the user can get new games
+      remove(myGames.mergeSortResults, searchKey)
+      remove(myGames.standardSortResults, searchKey)
 
       print
       print()
