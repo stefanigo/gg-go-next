@@ -86,8 +86,8 @@ class Container:
 
       count = 0
       for line in lines[1:]: # start at index 1 to skip header
-         if count > 10:
-            break
+         # if count > 10:
+         #    break
 
          gameName, format, date, developer, tags, details, languages, achievements, genre, price = line.strip().split(',')[:10] # only get the first 10 items
 
