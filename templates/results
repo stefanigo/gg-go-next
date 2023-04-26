@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+	<title>Search Results</title>
+	<style>
+		body {
+			background-color: #FFC0CB;
+			font-family: Montserrat, sans-serif;
+		}
+		
+		.container {
+      margin: 20px auto;
+      max-width: 800px; /* increase the maximum width */
+      padding: 20px;
+      text-align: center;
+}
+		
+		h1 {
+			color: #E37383;
+			font-size: 36px;
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+		
+		ul {
+			list-style-type: none;
+      padding-top: 70px;
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 800px;
+      text-align: left;
+      overflow-y: scroll;
+      height: 400px;
+      background-color: white;
+      border-radius: 10px;
+      padding-right: 10px;
+		}
+		
+		li {
+			margin-bottom: 20px;
+			position: relative;
+			padding-left: 40px;
+		}
+		
+		li.big-pink:before {
+			content: "\2665";
+			position: absolute;
+			left: 10px;
+			top: 0;
+			font-size: 24px;
+			color: #E37383;
+		}
+
+    li.big-pink {
+       font-family: Montserrat, sans-serif;
+       font-size: 24px;
+       color: #E75480;
+    }
+
+    li:not(.big-pink) {
+      font-size: 16px;
+      color: #EC7699;
+    }
+		
+		.search-again-btn {
+			background-color: #E37383;
+			border: none;
+			border-radius: 25px;
+			color: white;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 10px 20px;
+			margin-top: 30px;
+			cursor: pointer;
+			transition: all 0.2s ease-in-out;
+		}
+		
+		.search-again-btn:hover {
+			background-color: #F3AAC0;
+			box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+			transform: translateY(-2px);
+		}
+    
+		
+		ul::-webkit-scrollbar {
+			width: 10px;
+			background-color: #FFF0F3;
+		}
+		
+		ul::-webkit-scrollbar-thumb {
+			background-color: #E37383;
+			border-radius: 10px;
+		}
+    
+    @keyframes move-left-to-right {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-13%);
+      }
+    }
+    
+    #image1 {
+      animation: move-left-to-right 3s infinite alternate ease-in-out;
+    }
+
+	</style>
+</head>
+<body>
+	<div style="display: flex; justify-content: center;">
+		<div style="padding-top: 20px;">
+			<img id="image1" src="https://i.imgur.com/6t6seo3.png" style="width: 100px; height: 110px;">
+		</div>
+		<div>
+			<img src="https://i.imgur.com/vpN6Sqe.png" style="width: 400px; height: 120px;">
+		</div>
+	</div>
+	<div class="container">
+		<ul>
+			<li class="big-pink"><b>{{results[0]}}</b></li>
+      <li><i>GENRE: {{results[3]}}</i></li>
+      <li><i>PRICE: {{results[4]}}</i></li>
+      <li><i>FORMAT: {{results[1]}}</i></li>
+      <li><i>DEVELOPERS: {{results[2]}}</i></li>
+			<li class="big-pink"><b>{{results[5]}}</b></li>
+      <li><i>GENRE: {{results[8]}}</i></li>
+      <li><i>PRICE: {{results[9]}}</i></li>
+      <li><i>FORMAT: {{results[6]}}</i></li>
+      <li><i>DEVELOPERS: {{results[7]}}</i></li>
+			<li class="big-pink"><b>{{results[10]}}</b></li>
+      <li><i>GENRE: {{results[13]}}</i></li>
+      <li><i>PRICE: {{results[14]}}</i></li>
+      <li><i>FORMAT: {{results[11]}}</i></li>
+      <li><i>DEVELOPERS: {{results[12]}}</i></li>
+			<li class="big-pink"><b>{{results[15]}}</b></li>
+      <li><i>GENRE: {{results[18]}}</i></li>
+      <li><i>PRICE: {{results[19]}}</i></li>
+      <li><i>FORMAT: {{results[16]}}</i></li>
+      <li><i>DEVELOPERS: {{results[17]}}</i></li>
+			<li class="big-pink"><b>{{results[20]}}</b></li>
+      <li><i>GENRE: {{results[23]}}</i></li>
+      <li><i>PRICE: {{results[24]}}</i></li>
+      <li><i>FORMAT: {{results[21]}}</i></li>
+      <li><i>DEVELOPERS: {{results[22]}}</i></li>
+			<li class="big-pink"><b>{{results[25]}}</b></li>
+      <li><i>GENRE: {{results[28]}}</i></li>
+      <li><i>PRICE: {{results[29]}}</i></li>
+      <li><i>FORMAT: {{results[26]}}</i></li>
+      <li><i>DEVELOPERS: {{results[27]}}</i></li>
+			<li class="big-pink"><b>{{results[30]}}</b></li>
+      <li><i>GENRE: {{results[33]}}</i></li>
+      <li><i>PRICE: {{results[34]}}</i></li>
+      <li><i>FORMAT: {{results[31]}}</i></li>
+      <li><i>DEVELOPERS: {{results[32]}}</i></li>
+			<li class="big-pink"><b>{{results[35]}}</b></li>
+      <li><i>GENRE: {{results[38]}}</i></li>
+      <li><i>PRICE: {{results[39]}}</i></li>
+      <li><i>FORMAT: {{results[36]}}</i></li>
+      <li><i>DEVELOPERS: {{results[37]}}</i></li>
+			<li class="big-pink"><b>{{results[40]}}</b></li>
+      <li><i>GENRE: {{results[43]}}</i></li>
+      <li><i>PRICE: {{results[44]}}</i></li>
+      <li><i>FORMAT: {{results[41]}}</i></li>
+      <li><i>DEVELOPERS: {{results[42]}}</i></li>
+			<li class="big-pink"><b>{{results[45]}}</b></li>
+      <li><i>GENRE: {{results[48]}}</i></li>
+      <li><i>PRICE: {{results[49]}}</i></li>
+      <li><i>FORMAT: {{results[46]}}</i></li>
+      <li><i>DEVELOPERS: {{results[47]}}</i></li>
+		</ul>
+		<div style="clear: both;"></div>
+	<form action="{{ url_for('search') }}" method="POST">
+		<button class="search-again-btn" type="submit">Search Again</button>
+	</form>
