@@ -1,10 +1,17 @@
 # Project members: Allison Reilly and Stefani Go
 
-from flask import Flask, render_template  
+from replit import web
+import flask
+from flask import Flask, render_template, url_for, request, redirect
+from timeit import default_timer as timer
+
+app = flask.Flask(__name__)
+template_folder = 'templates' #html file folder
 
 class Game:
    def __init__(self, name, format, date):
       self.name = name
+      self.lowername = name.lower()
       self.format = format
       self.date = date
       self.developers = []
@@ -111,7 +118,7 @@ class Container:
       
    def findGame(self, searchKey):
       for game in self.gameList:
-         if game.name == searchKey:
+         if game.lowername == searchKey:
             return game
 
    def merge(self, arr, left, mid, right): # code from module 6 lecture slides
@@ -157,29 +164,27 @@ class Container:
          self.merge(arr, left, mid, right)
 
    def mergeSort(self):
+      start_time = timer()
       results = self.gameList
-      self.mergeSortHelper(results, 0, len(self.gameList)-1)
+      self.mergeSortHelper(results, 0, len(self.gameList) - 1)
+      end_time = timer()
       self.mergeSortResults = results
-
+      print("Time taken by merge sort:", end_time - start_time, "seconds")
+     
    def standardSort(self):
       # use standard sort method to sort objects by similarity score and store the results in a list in descending order
-      self.standardSortResults = sorted(self.gameList, key = lambda x: x.similarityScore, reverse = True)
+      start_time = timer()
+      results = sorted(self.gameList, key=lambda x: x.similarityScore, reverse=True)
+      end_time = timer()
+      self.standardSortResults = results
+      print("Time taken by standard sort:", end_time - start_time, "seconds")
 
-def remove(results, searchKey):
-   for game in results:
-      if game.name == searchKey:
-         results.remove(game)
-
-if __name__ == "__main__":
-
-   myGames = Container()
-
-   searchKey = input("Enter the name of a game: ")
-   
-   # if game is in container, get its properties
-   if any(x for x in myGames.gameList if x.name == searchKey):
+def searchResults(searchKey, myGames):
+  results = []
+  # if game is in container, get its properties
+  if any(x for x in myGames.gameList if x.lowername == searchKey.lower()):
       # based on its properties, update the similarity scores of every game in the container
-      target = myGames.findGame(searchKey)
+      target = myGames.findGame(searchKey.lower())
       for game in myGames.gameList:
          game.setSimilarityScore(target.format, target.date, target.developers, target.tags, target.details, target.genre)
       
@@ -187,26 +192,44 @@ if __name__ == "__main__":
       myGames.mergeSort()
       myGames.standardSort()
 
-      # if the results contain the search key, remove it so the user can get new games
-      remove(myGames.mergeSortResults, searchKey)
-      remove(myGames.standardSortResults, searchKey)
+      for item in myGames.standardSortResults[1:11]:
+          results.append(item.name)
+          results.append(item.format)
+          developers = ', '.join(item.developers).replace('[','').replace(']','')
+          genre = ', '.join(item.genre).replace('[','').replace(']','')
+          results.append(developers)
+          results.append(genre)
+          results.append(item.price)
+     
+  else:
+      results = []
 
-      print
-      print()
-      print(f"Merge Sort Results: ")
-      for item in myGames.mergeSortResults:
-         print(f"{item.name}")
+  return results
 
-      print()
-      print(f"Standard Sort Results: ")
-      for item in myGames.standardSortResults:
-         print(f"{item.name}")
-      print()
-   else:
-      print(f"Oops! We don't have info on that game yet. Would you like to try again?")
+@app.route('/')
+def search_page():
+  return render_template('index.html')
 
-   app = Flask('app')
-   @app.route('/')
-   def display():
-      return render_template('index.html')
-   app.run(host='0.0.0.0', port=8080)
+@app.route('/oopssearch')
+def oops_search():
+  return render_template('oopssearch.html')
+
+@app.route('/result', methods=['POST'])
+def search_game():
+  if request.method == 'POST':
+      search_term = request.form['search']
+      results = searchResults(search_term, myGames)
+      if not search_term:
+        return redirect('/')
+      if not results:
+       return redirect('/oopssearch')
+      return render_template('results.html', results=results)
+
+@app.route('/search', methods=['POST'])
+def search():
+  return redirect('/')
+
+if __name__ == "__main__":
+
+   myGames = Container()
+   web.run(app)
