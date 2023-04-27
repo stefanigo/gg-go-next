@@ -204,28 +204,28 @@ class Container:
 
       return results
 
-   @app.route('/')
-      def search_page():
-         return render_template('index.html')
+@app.route('/')
+   def search_page():
+      return render_template('index.html')
 
-   @app.route('/oopssearch')
-      def oops_search():
-         return render_template('oopssearch.html')
+@app.route('/oopssearch')
+   def oops_search():
+      return render_template('oopssearch.html')
 
-   @app.route('/result', methods=['POST'])
-      def search_game():
-         if request.method == 'POST':
-            search_term = request.form['search']
-            results = searchResults(search_term, myGames)
-            if not search_term:
-               return redirect('/')
-            if not results:
-               return redirect('/oopssearch')
-            return render_template('results.html', results=results)
-
-   @app.route('/search', methods=['POST'])
-      def search():
+@app.route('/result', methods=['POST'])
+   def search_game():
+      if request.method == 'POST':
+         search_term = request.form['search'
+         results = searchResults(search_term, myGames)
+      if not search_term:
          return redirect('/')
+      if not results:
+         return redirect('/oopssearch')
+      return render_template('results.html', results=results)
+
+@app.route('/search', methods=['POST'])
+   def search():
+      return redirect('/')
 
 if __name__ == "__main__":
    
