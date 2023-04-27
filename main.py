@@ -93,8 +93,6 @@ class Container:
 
       count = 0
       for line in lines[1:]: # start at index 1 to skip header
-         # if count > 10:
-         #    break
 
          gameName, format, date, developer, tags, details, languages, achievements, genre, price = line.strip().split(',')[:10] # only get the first 10 items
 
@@ -179,20 +177,20 @@ class Container:
       self.standardSortResults = results
       print("Time taken by standard sort:", end_time - start_time, "seconds")
 
-def searchResults(searchKey, myGames):
-  results = []
-  # if game is in container, get its properties
-  if any(x for x in myGames.gameList if x.lowername == searchKey.lower()):
-      # based on its properties, update the similarity scores of every game in the container
-      target = myGames.findGame(searchKey.lower())
-      for game in myGames.gameList:
-         game.setSimilarityScore(target.format, target.date, target.developers, target.tags, target.details, target.genre)
+   def searchResults(searchKey, myGames):
+      results = []
+      # if game is in container, get its properties
+      if any(x for x in myGames.gameList if x.lowername == searchKey.lower()):
+         # based on its properties, update the similarity scores of every game in the container
+         target = myGames.findGame(searchKey.lower())
+         for game in myGames.gameList:
+            game.setSimilarityScore(target.format, target.date, target.developers, target.tags, target.details, target.genre)
       
-      # sort the games based on their similarity scores 
-      myGames.mergeSort()
-      myGames.standardSort()
+         # sort the games based on their similarity scores 
+         myGames.mergeSort()
+         myGames.standardSort()
 
-      for item in myGames.standardSortResults[1:11]:
+         for item in myGames.standardSortResults[1:11]:
           results.append(item.name)
           results.append(item.format)
           developers = ', '.join(item.developers).replace('[','').replace(']','')
@@ -201,35 +199,35 @@ def searchResults(searchKey, myGames):
           results.append(genre)
           results.append(item.price)
      
-  else:
-      results = []
+      else:
+         results = []
 
-  return results
+      return results
 
-@app.route('/')
-def search_page():
-  return render_template('index.html')
+   @app.route('/')
+      def search_page():
+         return render_template('index.html')
 
-@app.route('/oopssearch')
-def oops_search():
-  return render_template('oopssearch.html')
+   @app.route('/oopssearch')
+      def oops_search():
+         return render_template('oopssearch.html')
 
-@app.route('/result', methods=['POST'])
-def search_game():
-  if request.method == 'POST':
-      search_term = request.form['search']
-      results = searchResults(search_term, myGames)
-      if not search_term:
-        return redirect('/')
-      if not results:
-       return redirect('/oopssearch')
-      return render_template('results.html', results=results)
+   @app.route('/result', methods=['POST'])
+      def search_game():
+         if request.method == 'POST':
+            search_term = request.form['search']
+            results = searchResults(search_term, myGames)
+            if not search_term:
+               return redirect('/')
+            if not results:
+               return redirect('/oopssearch')
+            return render_template('results.html', results=results)
 
-@app.route('/search', methods=['POST'])
-def search():
-  return redirect('/')
+   @app.route('/search', methods=['POST'])
+      def search():
+         return redirect('/')
 
 if __name__ == "__main__":
-
+   
    myGames = Container()
    web.run(app)
